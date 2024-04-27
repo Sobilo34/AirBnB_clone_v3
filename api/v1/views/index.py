@@ -9,4 +9,4 @@ from flask import jsonify
 
 def status():
     """The status"""
-    return jsonify("status": OK)
+    return jsonify({"status": "OK"})
