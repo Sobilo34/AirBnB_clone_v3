@@ -67,7 +67,7 @@ class DBStorage:
     def get(self, cls, id):
         """Retrives object based on class and it ID"""
         # Check if the class is valid
-        if cls in classes:
+        if cls and cls in classes:
             # Query the database for all objects of the given class
             objs = self.all(classes[cls])
 
