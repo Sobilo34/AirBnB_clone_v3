@@ -22,3 +22,9 @@ def get_state(state_id=None):
         abort(404)
     state_list = [value.to_dict() for value in states.values()]
     return jsonify(state_list), 200
+
+
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
+def post_state():
+    """ creates a state """
+    
