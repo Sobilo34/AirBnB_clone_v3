@@ -3,7 +3,7 @@
 Creates states route
 """
 from api.v1.views import app_views
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from models import storage
 from models.state import State
 
@@ -48,7 +48,7 @@ def post_state():
     state = State(**data)
     storage.new(state)
     storage.save()
-    return make_responsejsonify((state.to_dict()), 201)
+    return make_response(jsonify(state.to_dict()), 201)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
