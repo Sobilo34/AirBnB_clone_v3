@@ -16,12 +16,12 @@ def get_state(state_id=None):
         state = storage.get("State", state_id)
         if state is None:
             abort(404)
-        return jsonify(state.to_dict()), 200
+        return jsonify(state.to_dict())
     states = storage.all(State)
     if states is None:
         abort(404)
     state_list = [value.to_dict() for value in states.values()]
-    return jsonify(state_list), 200
+    return jsonify(state_list)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
