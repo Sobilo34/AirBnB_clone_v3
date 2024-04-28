@@ -3,32 +3,32 @@
 Creates states route
 """
 from api.v1.views import app_views
-from flask import jsonify, abort
+from flask import jsonify, abort, request
 from models import storage
 from models.state import State
 
 
 @app_views.route('/states', strict_slashes=False)
-def get_state():
+def get_states():
     """ returns list of all state """
     states = storage.all(State)
     state_list = [state.to_dict() for state in states.values()]
     return jsonify(state_list)
 
 
-@app_views.route("/states/<state_id>", strict_slashes=False)
+@app_views.route("/states/<state_id>", methods = ['GET'], strict_slashes=False)
 def get_state(state_id):
     """ return a state with a given id """
-    state = storage.get(State, state_id)
+    state = storage.get("State", state_id)
     if not state:
         abort(404)
     return jsonify(state.to_dict())
 
 
-@app_views.route("/states/<state_id>", methods = ['DELETE'] strict_slashes=False)
-def get_state(state_id):
+@app_views.route("/states/<state_id>", methods = ['DELETE'], strict_slashes=False)
+def delete_state(state_id):
     """ return a state with a given id """
-    state = storage.get(State, state_id)
+    state = storage.get("State", state_id)
     if not state:
         abort(404)
     storage.delete(state)
@@ -41,29 +41,29 @@ def post_state():
     """ creates a state """
     if not request.get_json:
         abort(404, description="Not a JSON")
-    if name not in request.get_json:
+    if "name" not in request.get_json():
         abort(404, description="Missing name")
-    data = request.get_json
+    data = request.get_json()
     state = State(**data)
     storage.new(state)
     storage.save()
     return jsonify(state.to_dict()), 201
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def update_state():
+def update_state(state_id):
     """ updates the state instance """
-    state = storage.get(State, state_id)
+    state = storage.get("State", state_id)
     if not state:
         abort(404)
-    if not request.get_json:
+    if not request.get_json():
         abort(404, description="Not a JSON")
     # return if ignore member is present in the json
-    data = request.get_json
+    data = request.get_json()
     ignore = ["id", "created_at", "updated_at"]
-    for key and value in data.items():
+    for key, value in data.items():
         if key not in ignore:
             setattr(state, key, value)
     storage.save()
-    return jsonify(state), 200
+    return jsonify(state.to_dict()), 200
 
     
