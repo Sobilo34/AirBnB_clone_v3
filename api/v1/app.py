@@ -2,7 +2,7 @@
 """
 An app
 """
-from flask import Flask, Blueprint
+from flask import Flask
 from models import storage
 from api.v1.views import app_views
 from os import getenv
@@ -18,4 +18,4 @@ def teardown(exception):
 
 
 if __name__== "__main__":
-    app.run(host=getenv("HBNB_API_HOST", "0.0.0.0"), port=getenv("HBNB_API_PORT", 5000), threaded=True)
+    app.run(host=getenv("HBNB_API_HOST", "0.0.0.0"), port=getenv("HBNB_API_PORT", 5000), threaded=True, debug=True)
