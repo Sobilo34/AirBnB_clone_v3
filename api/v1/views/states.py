@@ -34,7 +34,7 @@ def delete_state(state_id):
         abort(404)
     storage.delete(state)
     storage.save()
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -48,7 +48,7 @@ def post_state():
     state = State(**data)
     storage.new(state)
     storage.save()
-    return make_response(jsonify(state.to_dict()), 201)
+    return jsonify(state.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
@@ -66,4 +66,4 @@ def update_state(state_id):
         if key not in ignore:
             setattr(state, key, value)
     storage.save()
-    return make_response(jsonify(state.to_dict()), 200)
+    return jsonify(state.to_dict()), 200
