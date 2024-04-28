@@ -11,12 +11,8 @@ from models.state import State
 @app_views.route('/states', strict_slashes=False)
 @app_views.route("/states/<state_id>", strict_slashes=False)
 def get_state(state_id=None):
-    """ retrieves a State if id is given else returns list of all state """
-    if state_id:
-        state = storage.get("State", state_id)
-        if state is None:
-            abort(404)
-        return jsonify(state.to_dict()), 200
+    """ returns list of all state """
+    
     states = storage.all(State)
     if states is None:
         abort(404)
