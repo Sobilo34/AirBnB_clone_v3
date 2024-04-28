@@ -18,6 +18,7 @@ def status():
     """The status"""
     return jsonify({"status": "OK"})
 
+
 @app_views.route('/stats')
 def stats():
     """ returns the status of the data in the database """
