@@ -19,8 +19,7 @@ def stats():
     class_list = [Amenity, City, State, Place, Review, User]
     names = ["amenities", "cities", "states", "places", "reviews", "users"]
     response = {}
-    
-    for name, cls in zip(names, class_list):
-            response[name] = storage.count(cls=cls)
-    return response
 
+    for name, cls in zip(names, class_list):
+        response[name] = storage.count(cls=cls)
+    return response
