@@ -13,16 +13,13 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', strict_slashes=False)
+@app_views.route('/api/v1/stats', strict_slashes=False)
 def stats():
     """ returns the status of the data in the database """
-    response = {
-        "amenities": storage.count("Amenity"),
-        "cities": storage.count("City"),
-        "places": storage.count("Place"),
-        "reviews": storage.count("Review"),
-        "states": storage.count("State"),
-        "users": storage.count("User")
-    }
-    return jsonify(response), 200
+    class_list = [Amenity, City, State, Place, Review, User]
+    names = ["amenities", "cities", "states", "places", "reviews", "users"]
+    response = {}
+    for name, cls in zip(names, class_list):
+        response[name] = storage.count(cls=cls)
+    return response
    
