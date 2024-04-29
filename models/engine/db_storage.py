@@ -66,12 +66,16 @@ class DBStorage:
 
     def get(self, cls, id):
         """Retrives object based on class and it ID"""
+        objs = None
         # Check if the class is valid
-        if cls and cls in classes:
+        if cls and cls in classes.values():
             # Query the database for all objects of the given class
+            objs = self.all(cls)
+        # # if the class name was passed as a string
+        elif cls and cls in classes.keys():
             objs = self.all(classes[cls])
-
-            # Iterate through the objects to find the one with the matching ID
+        # Iterate through the objects to find the one with the matching ID
+        if objs:
             for obj in objs.values():
                 if obj.id == id:
                     return obj
@@ -81,11 +85,13 @@ class DBStorage:
         """Counts the number of objects in storage matching the given class."""
         my_count = 0
 
-        # Check if the class is specified
-        if cls and cls in classes:
+        # Check if the class obj is specified
+        if cls and cls in classes.values():
             # Query objects for the specified class
-            objs = self.all(classes[cls])
-            my_count = len(objs)
+            my_count = len(self.all(cls))
+        # # if the class name was passed as a string
+        elif cls and cls in classes.keys():
+            my_count = len(self.all(cls))
         else:
             # if cls not provided, return count of all cls
             my_count = len(self.all())
