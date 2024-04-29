@@ -23,3 +23,4 @@ def stats():
     for name, cls in zip(names, class_list):
         response[name] = storage.count(cls=cls)
     return response
+    
