@@ -16,7 +16,7 @@ def status():
 @app_views.route('/stats', strict_slashes=False)
 def stats():
     """ returns the status of the data in the database """
-    _response = {
+    response = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
         "places": storage.count("Place"),
