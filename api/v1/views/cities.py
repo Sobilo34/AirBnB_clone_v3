@@ -19,7 +19,7 @@ def get_cities(state_id):
         abort(404)
     # returns the list of cities of a state if the state exists
     city_list = [city.to_dict() for city in state.cities]
-    return make_response(jsonify(city_list), 200)
+    return jsonify(city_list), 200
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
@@ -29,7 +29,7 @@ def get_city(city_id):
     # return 404 if state not found
     if not city:
         abort(404)
-    return make_response(jsonify(city.to_dict()), 200)
+    return jsonify(city.to_dict()), 200
 
 
 @app_views.route("/cities/<city_id>", methods=['DELETE'],
@@ -41,4 +41,4 @@ def delete_city(city_id):
         abort(404)
     storage.delete(city)
     storage.save()
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
