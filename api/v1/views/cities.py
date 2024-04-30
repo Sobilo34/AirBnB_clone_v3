@@ -52,11 +52,11 @@ def post_city(state_id):
     # return 404 if state not found
     if not state:
         abort(404)
-    if not request.is_json:
+    if not request.is_json():
         abort(400, description='Not a JSON')
     if 'name' not in request.get_json():
         abort(400, description='Missing name')
-    data = request.is_json()
+    data = request.get_json()
     city = City(**data)
     city.state_id = state.id
     city.save()

@@ -42,3 +42,19 @@ def delete_user():
     storage.delete(user)
     storage.save()
     return make_response(jsonify({}), 200)
+
+
+@app_views.route('/users', methods=['POST'],
+                 strict_slashes=False)
+def create_user():
+    """ creates a user """
+    if not request.is_json():
+        abort(400, description='Not a JSON')
+    if 'email' not in request.get_json():
+        abort(400, description='Missing email')
+    if 'password' not in request.get_json():
+        abort(400, description='Missing password')
+    data = request.get_json()
+    user = User(**data)
+    user.save()
+    return make_response(jsonify(user.to_dict()), 201)
