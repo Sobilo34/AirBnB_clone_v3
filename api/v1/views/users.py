@@ -6,17 +6,28 @@ from api.v1.views import app_views
 from flask import jsonify, abort, request, make_response
 from models import storage
 from models.state import State
-from models.city import City
+from models.user import User
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'],
+@app_views.route('/users', methods=['GET'],
                  strict_slashes=False)
-def get_cities(state_id):
-    """ returns list of all cities of a state """
-    state = storage.get(State, state_id)
-    # return 404 if state not found
-    if not state:
+def get_users():
+    """ returns list of all users """
+    users = storage.all(User)
+    # returns the list of users
+    user_list = [user.to_dict() for user in users.values()]
+    return jsonify(user_list)
+
+
+@app_views.route('/users/user_id', methods=['GET'],
+                 strict_slashes=False)
+def get_user():
+    """ returns a user """
+    user = storage.get(User, user_id)
+    # returns 404 if user not found
+    if not user:
         abort(404)
-    # returns the list of cities of a state if the state exists
-    city_list = [city.to_dict() for city in state.cities]
-    return make_response(jsonify(city_list), 200)
+    return jsonify(user.jsonify)
+
+
+
