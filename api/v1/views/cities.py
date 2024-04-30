@@ -52,7 +52,7 @@ def post_city(state_id):
     # return 404 if state not found
     if not state:
         abort(404)
-    if not request.is_json():
+    if not request.get_json():
         abort(400, description='Not a JSON')
     if 'name' not in request.get_json():
         abort(400, description='Missing name')
@@ -69,7 +69,7 @@ def update_city(city_id):
     city = storage.get(City, city_id)
     if not city:
         abort(404)
-    if not request.is_json():
+    if not request.get_json():
         abort(400, description="Not a JSON")
     data = request.get_json()
     ignore = ["id", "created_at", "updated_at", "state_id"]
