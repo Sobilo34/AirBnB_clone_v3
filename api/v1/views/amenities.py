@@ -7,6 +7,7 @@ from flask import jsonify, abort, request, make_response
 from models import storage
 from models.amenities import Amenity
 
+
 @app_views.route("/amenities", methods=["GET"])
 def get_amenities():
 
@@ -40,7 +41,7 @@ def delete_amenity(amenity_id):
     Deletes an amenity by it ID
     """
     amenity = storage.get(Amenity, amenity_id)
-    
+
     if not amenity:
         abort(404)
     else:
