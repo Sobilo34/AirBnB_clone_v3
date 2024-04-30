@@ -22,13 +22,12 @@ def status():
 @app_views.route('/stats', strict_slashes=False)
 def stats():
     """ returns the status of the data in the database """
-    counts = {
+    _response = {
         "amenities": storage.count(Amenity),
         "cities": storage.count(City),
-        "places": storage.count(Place),
-        "reviews": storage.count(Review),
-        "states": storage.count(State),
-        "users": storage.count(User)
+        "places": storage.count("Place"),
+        "reviews": storage.count("Review"),
+        "states": storage.count("State"),
+        "users": storage.count("User")
     }
-
-    return jsonify(counts)
+    return jsonify(_response)
