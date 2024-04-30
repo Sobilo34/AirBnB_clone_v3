@@ -52,4 +52,7 @@ def create_review(place_id):
     # return 404 if state not found
     if not place:
         abort(404)
-    
+    if not request.get_json():
+        abort(400, description='Not a JSON')
+    if 'user_id' not in request.get_json():
+        abort(400, description='Missing user_id')
