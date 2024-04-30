@@ -32,7 +32,7 @@ def get_user():
 
 @app_views.route('/users/user_id', methods=['DELETE'],
                  strict_slashes=False)
-def get_user():
+def delete_user():
     """ deletes a user """
     user = storage.get(User, user_id)
     # returns 404 if user not found
