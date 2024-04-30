@@ -18,7 +18,7 @@ def get_amenities():
     amenities_list = []
 
     for ameni in amenities:
-        amenities_list.append(amenities.to_dict())
+        amenities_list.append(ameni.to_dict())
 
     return jsonify(amenities_list)
 
