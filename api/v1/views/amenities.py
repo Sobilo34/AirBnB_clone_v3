@@ -72,9 +72,6 @@ def update_amenity(amenity_id):
     """
     Updates an amenity by it ID
     """
-    if not amenity:
-        abort(404)
-
     if not request.get_json():
         abort(400, description="Not a JSON")
 
@@ -83,6 +80,8 @@ def update_amenity(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
 
     data = request.get_json()
+    if not amenity:
+        abort(404)
 
     for key, value in data.items():
         if key not in ignore_keys:
