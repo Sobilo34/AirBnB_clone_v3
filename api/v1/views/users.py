@@ -30,4 +30,15 @@ def get_user():
     return jsonify(user.jsonify)
 
 
-
+@app_views.route('/users/user_id', methods=['DELETE'],
+                 strict_slashes=False)
+def get_user():
+    """ deletes a user """
+    user = storage.get(User, user_id)
+    # returns 404 if user not found
+    if not user:
+        abort(404)
+    # deletes the user
+    storage.delete(user)
+    storage.save()
+    return make_response(jsonify({}), 200)

@@ -19,7 +19,7 @@ def get_cities(state_id):
         abort(404)
     # returns the list of cities of a state if the state exists
     city_list = [city.to_dict() for city in state.cities]
-    return jsonify(city_list)
+    return make_response(jsonify(city_list), 200)
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
@@ -29,7 +29,7 @@ def get_city(city_id):
     # return 404 if state not found
     if not city:
         abort(404)
-    return jsonify(city.to_dict())
+    return make_response(jsonify(city.to_dict()), 200)
 
 
 @app_views.route("/cities/<city_id>", methods=['DELETE'],
@@ -52,7 +52,7 @@ def post_city(state_id):
     # return 404 if state not found
     if not state:
         abort(404)
-    if not request.is_json:
+    if not request.get_json():
         abort(400, description='Not a JSON')
     if 'name' not in request.get_json():
         abort(400, description='Missing name')
@@ -69,7 +69,7 @@ def update_city(city_id):
     city = storage.get(City, city_id)
     if not city:
         abort(404)
-    if not request.is_json():
+    if not request.get_json():
         abort(400, description="Not a JSON")
     data = request.get_json()
     ignore = ["id", "created_at", "updated_at", "state_id"]
