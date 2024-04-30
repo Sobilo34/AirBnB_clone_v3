@@ -13,7 +13,7 @@ def get_states():
     """ returns list of all state """
     states = storage.all(State)
     state_list = [state.to_dict() for state in states.values()]
-    return make_response(jsonify(state_list), 200)
+    return jsonify(state_list)
 
 
 @app_views.route("/states/<state_id>", methods=['GET'], strict_slashes=False)
@@ -22,7 +22,7 @@ def get_state(state_id):
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    return make_response(jsonify(state.to_dict()), 200)
+    return jsonify(state.to_dict())
 
 
 @app_views.route("/states/<state_id>", methods=['DELETE'],
