@@ -8,28 +8,28 @@ from models import storage
 from models.state import State
 
 
-@app_views.route('/states', strict_slashes=False)
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
     """ returns list of all state """
     states = storage.all(State)
     state_list = [state.to_dict() for state in states.values()]
-    return make_response(jsonify(state_list), 200)
+    return jsonify(state_list)
 
 
 @app_views.route("/states/<state_id>", methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     """ return a state with a given id """
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
-    return make_response(jsonify(state.to_dict()), 200)
+    return jsonify(state.to_dict())
 
 
 @app_views.route("/states/<state_id>", methods=['DELETE'],
                  strict_slashes=False)
 def delete_state(state_id):
     """ return a state with a given id """
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     storage.delete(state)
@@ -40,7 +40,7 @@ def delete_state(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_state():
     """ creates a state """
-    if not request.get_json:
+    if not request.is_json:
         abort(400, description="Not a JSON")
     if "name" not in request.get_json():
         abort(400, description="Missing name")
@@ -54,10 +54,10 @@ def post_state():
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     """ updates the state instance """
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
-    if not request.get_json():
+    if not request.is_json:
         abort(400, description="Not a JSON")
     # return if ignore member is present in the json
     data = request.get_json()
