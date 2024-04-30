@@ -46,7 +46,7 @@ def delete_city(city_id):
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
                 strict_slashes=False)
-def post_city():
+def post_city(state_id):
     """ creates a city """
     state = storage.get(State, state_id)
     # return 404 if state not found
@@ -60,4 +60,4 @@ def post_city():
     city = City(**data)
     city.state_id = state.id
     city.save()
-    return jsonify(state.to_dict()), 201
+    return jsonify(city.to_dict()), 201
