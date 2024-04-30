@@ -41,7 +41,7 @@ def delete_city(city_id):
         abort(404)
     storage.delete(city)
     storage.save()
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
@@ -60,7 +60,7 @@ def post_city(state_id):
     city = City(**data)
     city.state_id = state.id
     city.save()
-    return make_response(jsonify(city.to_dict()), 201)
+    return jsonify(city.to_dict()), 201
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
@@ -77,4 +77,4 @@ def update_city(city_id):
         if key not in ignore:
             setattr(city, key, value)
     storage.save()
-    return make_response(jsonify(city.to_dict()), 200)
+    return jsonify(city.to_dict()), 200
