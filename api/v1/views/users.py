@@ -47,8 +47,8 @@ def delete_user():
                  strict_slashes=False)
 def create_user():
     """ creates a user """
-    if not request.get_json():
-        abort(400, description='Not a JSON')
+    if not request.is_json:
+        abort(400, description="Not a JSON")
     if 'email' not in request.get_json():
         abort(400, description='Missing email')
     if 'password' not in request.get_json():
@@ -67,7 +67,7 @@ def update_user():
     # returns 404 if user not found
     if not user:
         abort(404)
-    if not request.get_json():
+    if not request.is_json:
         abort(400, description='Not a JSON')
     data = request.get_json()
     ignore = ["id", "created_at", "updated_at", "email"]

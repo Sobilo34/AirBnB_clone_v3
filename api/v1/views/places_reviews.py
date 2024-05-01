@@ -54,7 +54,7 @@ def create_review(place_id):
     # return 404 if state not found
     if not place:
         abort(404)
-    if not request.get_json():
+    if not request.is_json:
         abort(400, description='Not a JSON')
     if 'user_id' not in request.get_json():
         abort(400, description='Missing user_id')
@@ -68,7 +68,7 @@ def update_review(review_id):
     # return 404 if review not found
     if not review:
         abort(404)
-    if not request.get_json():
+    if not request.is_json:
         abort(400, description='Not a JSON')
     data = request.get_json()
     ignore = ["id", "created_at", "updated_at", "user_id", "place_id"]
