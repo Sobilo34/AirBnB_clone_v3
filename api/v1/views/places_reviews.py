@@ -5,7 +5,7 @@ Creates cities route
 from api.v1.views import app_views
 from flask import jsonify, abort, request, make_response
 from models import storage
-from models.Review import Review
+from models.review import Review
 from models.place import Place
 
 
@@ -22,7 +22,8 @@ def get_reviews(place_id):
     return jsonify(place_list)
 
 
-@app_views.route('/reviews/<review_id>>', methods=['GET'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>>', methods=['GET'],
+                 strict_slashes=False)
 def get_review(review_id):
     """ returns a review """
     review = storage.get(Review, review_id)
@@ -32,8 +33,9 @@ def get_review(review_id):
     return jsonify(review.to_dict())
 
 
-@app_views.route('/reviews/<review_id>>', methods=['DELETE'], strict_slashes=False)
-def get_review(review_id):
+@app_views.route('/reviews/<review_id>>', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_review(review_id):
     """ deletes a review """
     review = storage.get(Review, review_id)
     # return 404 if review not found
