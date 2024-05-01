@@ -18,20 +18,20 @@ def get_users():
     return jsonify(user_list)
 
 
-@app_views.route('/users/user_id', methods=['GET'],
+@app_views.route('/users/<user_id>', methods=['GET'],
                  strict_slashes=False)
-def get_user():
+def get_user(user_id):
     """ returns a user """
     user = storage.get(User, user_id)
     # returns 404 if user not found
     if not user:
         abort(404)
-    return jsonify(user.jsonify)
+    return jsonify(user.to_dict())
 
 
-@app_views.route('/users/user_id', methods=['DELETE'],
+@app_views.route('/users/<user_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_user():
+def delete_user(user_id):
     """ deletes a user """
     user = storage.get(User, user_id)
     # returns 404 if user not found
@@ -59,9 +59,9 @@ def create_user():
     return make_response(jsonify(user.to_dict()), 201)
 
 
-@app_views.route('/users/user_id', methods=['PUT'],
+@app_views.route('/users/<user_id>', methods=['PUT'],
                  strict_slashes=False)
-def update_user():
+def update_user(user_id):
     """ updates a user """
     user = storage.get(User, user_id)
     # returns 404 if user not found
