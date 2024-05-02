@@ -14,6 +14,7 @@ app.url_map.strict_slashes = False
 CORS(app, resources={"/*": {"origins": "0.0.0.0"}})
 app.register_blueprint(app_views, url_prefix="/api/v1")
 
+
 @app.teardown_appcontext
 def teardown(exception):
     """ Closes database"""
