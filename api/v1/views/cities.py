@@ -28,8 +28,7 @@ def get_city(city_id):
     city = storage.get(City, city_id)
     # return 404 if state not found
     if not city:
-        # abort(404)
-        print("bilal")
+        abort(404)
     return jsonify(city.to_dict())
 
 
