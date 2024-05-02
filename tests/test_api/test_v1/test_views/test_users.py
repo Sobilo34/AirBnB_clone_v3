@@ -9,6 +9,10 @@ from api.v1.views import users
 from models.base_model import BaseModel
 import pep8
 import unittest
+from flask import Flask
+from api.v1.views import app_views
+from models import storage
+from models.user import User
 
 
 class TestUsersDocs(unittest.TestCase):
@@ -44,3 +48,66 @@ class TestUsersDocs(unittest.TestCase):
                              "{:s} method needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
+
+
+class TestUsersRoute(unittest.TestCase):
+    def setUp(self):
+        """Set up the test app"""
+        self.app = Flask(__name__)
+        self.app.register_blueprint(app_views)
+        self.client = self.app.test_client()
+        self.user = User(
+            last_name="dennis",
+            first_name="chiedu",
+            email="dennis@yahoo.com",
+            password="asdfjkl;"
+        )
+        self.user.save()
+
+    def tearDown(self):
+        """Clean up after the test"""
+        # Clean up any test data here
+
+    def test_get_users(self):
+        """Test GET /users route"""
+        response = self.client.get('/api/v1/users')
+        # checks the status code
+        self.assertEqual(response.status_code, 200)
+        # Check if content type is JSON
+        self.assertEqual(response.content_type, 'application/json')
+        # Get response data as JSON
+        json_data = response.json
+        # Assert that JSON data is a list
+        self.assertTrue(isinstance(json_data, list))
+
+    def test_get_user(self):
+        """Test GET /users/<user_id> route"""
+        response = self.client.get(f'/api/v1/users/{self.user.id}')
+        # checks the status code
+        self.assertEqual(response.status_code, 200)
+        # Check if content type is JSON
+        self.assertEqual(response.content_type, 'application/json')
+        # Get response data as JSON
+        json_data = response.json
+        # Assert that JSON data is a list
+        self.assertTrue(isinstance(json_data, dict))
+        self.assertEqual(json_data, self.user.to_dict())
+
+    def test_delete_user(self):
+        """Test GET /users/<user_id> route"""
+        self.user.save()
+        response = self.client.delete(f'/api/v1/users/{self.user.id}')
+        # checks the status code
+        self.assertEqual(response.status_code, 200)
+        # Check if content type is JSON
+        self.assertEqual(response.content_type, 'application/json')
+        # Get response data as JSON
+        json_data = response.json
+        # Assert that JSON data is a list
+        self.assertTrue(isinstance(json_data, dict))
+        # compare that it returns empty response
+        self.assertEqual(json_data, {})
+        # request for the deleted user and test that it does not exist
+        response = self.client.delete(f'/api/v1/users/{self.user.id}')
+        # checks the status code is 404 (not found)
+        self.assertEqual(response.status_code, 404)
