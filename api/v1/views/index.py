@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-THis is a python file
+creates a flask route that returns the status and stats of the app
 """
 from api.v1.views import app_views
 from flask import jsonify
