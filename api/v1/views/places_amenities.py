@@ -11,7 +11,9 @@ import os
 
 storage_mode = os.getenv("HBNB_TYPE_STORAGE")
 
-@app_views.route("places/<place_id>/amenities", strict_slashes=False, methods=["GET"])
+
+@app_views.route(
+    "places/<place_id>/amenities", strict_slashes=False, methods=["GET"])
 def get_amenitiesOfPlace(place_id):
     place_obj = storage.get(Place, place_id)
     if not place_obj:
