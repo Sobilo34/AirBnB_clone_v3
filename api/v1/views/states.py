@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """
 Creates states route
