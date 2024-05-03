@@ -33,7 +33,7 @@ def get_review(review_id):
     return jsonify(review.to_dict())
 
 
-@app_views.route('/reviews/<review_id>>', methods=['DELETE'],
+@app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_review(review_id):
     """ deletes a review """
@@ -60,7 +60,7 @@ def create_review(place_id):
         abort(400, description='Missing user_id')
 
 
-@app_views.route('/reviews/<review_id>>', methods=['PUT'],
+@app_views.route('/reviews/<review_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_review(review_id):
     """ updates a review """
