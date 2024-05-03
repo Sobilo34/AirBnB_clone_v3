@@ -10,9 +10,8 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-app.url_map.strict_slashes = False
-CORS(app, resources={"/*": {"origins": "0.0.0.0"}})
-app.register_blueprint(app_views, url_prefix="/api/v1")
+app.register_blueprint(app_views)
+CORS(app, resources={r'/*': {'origins': '0.0.0.0'}}))
 
 
 @app.teardown_appcontext
