@@ -82,7 +82,7 @@ class TestUsersRoute(unittest.TestCase):
 
     def test_get_user(self):
         """Test GET /users/<user_id> route"""
-        response = self.client.get(f'/api/v1/users/{self.user.id}')
+        response = self.client.get('/api/v1/users/{}'.format(self.user.id))
         # checks the status code
         self.assertEqual(response.status_code, 200)
         # Check if content type is JSON
